@@ -20,3 +20,10 @@ gen
 target/
 
 *.iml
+
+# facebook Files #
+facebook/bin/
+facebook/gen/
+facebook/target/
+
+
