@@ -18,6 +18,35 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
+    <profiles>
+        <profile>
+            <id>linux</id>
+            <activation>
+              <os>
+                <family>unix</family>
+                <name>Linux</name>
+              </os>
+            </activation>
+            <properties>
+                <android.maven.plugin.version>3.8.0</android.maven.plugin.version>
+            </properties>
+        </profile>
+
+        <profile> 
+            <id>mac</id> 
+            <activation> 
+                <os> 
+                    <family>mac</family> 
+                    <name>mac os x</name>
+                </os> 
+            </activation> 
+            <properties>
+                <android.maven.plugin.version>3.4.1</android.maven.plugin.version>
+            </properties>
+        </profile>      
+
+    </profiles>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.google.android</groupId>
@@ -40,6 +69,7 @@
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>
+				<version>${android.maven.plugin.version}</version>
 				<configuration>
 					<androidManifestFile>${project.basedir}/AndroidManifest.xml</androidManifestFile>
 					<assetsDirectory>ignored</assetsDirectory>
