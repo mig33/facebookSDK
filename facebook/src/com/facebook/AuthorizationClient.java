@@ -132,14 +132,16 @@ class AuthorizationClient implements Serializable {
     }
 
     void startOrContinueAuth(AuthorizationRequest request) {
-        if (appEventsLogger == null || appEventsLogger.getApplicationId() != request.getApplicationId()) {
-            appEventsLogger = AppEventsLogger.newLogger(context, request.getApplicationId());
-        }
-
-        if (getInProgress()) {
-            continueAuth();
-        } else {
-            authorize(request);
+        if (request != null) {
+            if (appEventsLogger == null || appEventsLogger.getApplicationId() != request.getApplicationId()) {
+                appEventsLogger = AppEventsLogger.newLogger(context, request.getApplicationId());
+            }
+    
+            if (getInProgress()) {
+                continueAuth();
+            } else {
+                authorize(request);
+            }
         }
     }
 
@@ -480,7 +482,9 @@ class AuthorizationClient implements Serializable {
         bundle.putLong(EVENT_PARAM_TIMESTAMP, System.currentTimeMillis());
         bundle.putString(EVENT_PARAM_METHOD, method);
 
-        appEventsLogger.logSdkEvent(EVENT_NAME_LOGIN_METHOD_START, null, bundle);
+        if (appEventsLogger != null) {
+            appEventsLogger.logSdkEvent(EVENT_NAME_LOGIN_METHOD_START, null, bundle);
+        }
     }
 
     private void logAuthorizationMethodComplete(String method, Result result, Map<String, String> loggingExtras) {
@@ -516,7 +520,9 @@ class AuthorizationClient implements Serializable {
         bundle.putString(EVENT_PARAM_METHOD, method);
         bundle.putLong(EVENT_PARAM_TIMESTAMP, System.currentTimeMillis());
 
-        appEventsLogger.logSdkEvent(EVENT_NAME_LOGIN_METHOD_COMPLETE, null, bundle);
+        if (appEventsLogger != null) {
+            appEventsLogger.logSdkEvent(EVENT_NAME_LOGIN_METHOD_COMPLETE, null, bundle);
+        }
     }
 
     static Bundle newAuthorizationLoggingBundle(String authLoggerId) {
